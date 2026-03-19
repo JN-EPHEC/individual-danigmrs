@@ -2,6 +2,13 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
+    // On recrée la table pour qu'elle corresponde au modèle Sequelize (nom/prenom).
+    try {
+      await queryInterface.dropTable({ schema: 'public', tableName: 'users' });
+    } catch {
+      // Si la table n'existe pas encore, on ignore.
+    }
+
     await queryInterface.createTable({ schema: 'public', tableName: 'users' }, {
       id: {
         type: Sequelize.INTEGER,
@@ -11,11 +18,11 @@ module.exports = {
       },
       nom: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
       prenom: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
@@ -34,3 +41,4 @@ module.exports = {
     await queryInterface.dropTable({ schema: 'public', tableName: 'users' });
   }
 };
+

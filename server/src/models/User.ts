@@ -18,6 +18,7 @@ User.init(
     sequelize,
     modelName: "User",
     tableName: "users", // force le nom
+    schema: "public", // Evite de tomber sur auth.users côté Supabase
   }
 );
 

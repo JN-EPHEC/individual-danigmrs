@@ -2,12 +2,17 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
+    // Force le schéma public pour éviter tout conflit avec auth.users (Supabase).
+    await queryInterface.dropTable({ schema: 'public', tableName: 'users' }).catch(
+      () => undefined
+    );
+
     await queryInterface.createTable({ schema: 'public', tableName: 'users' }, {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
-        allowNull: false
+        allowNull: false,
       },
       nom: {
         type: Sequelize.STRING,
@@ -20,17 +25,18 @@ module.exports = {
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-      }
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+      },
     });
   },
 
   async down(queryInterface) {
     await queryInterface.dropTable({ schema: 'public', tableName: 'users' });
-  }
+  },
 };
+
