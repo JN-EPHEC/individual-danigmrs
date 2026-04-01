@@ -14,7 +14,7 @@ function App() {
 
   // 🔄 Charger les users
   const loadUsers = async () => {
-    const res = await fetch("/api/users");
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/users`);
     const data = await res.json();
     setUsers(data);
   };
@@ -27,7 +27,7 @@ function App() {
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    await fetch("/api/users", {
+    await fetch(`${import.meta.env.VITE_API_URL}/users`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ nom, prenom }),
@@ -40,7 +40,7 @@ function App() {
 
   // ❌ Supprimer user
   const handleDelete = async (id: number) => {
-    await fetch(`/api/users/${id}`, {
+    await fetch(`${import.meta.env.VITE_API_URL}/users/${id}`, {
       method: "DELETE",
     });
 
@@ -54,7 +54,7 @@ function App() {
 
     if (!newNom || !newPrenom) return;
 
-    await fetch(`/api/users/${user.id}`, {
+    await fetch(`${import.meta.env.VITE_API_URL}/users/${user.id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ nom: newNom, prenom: newPrenom }),
